@@ -1,23 +1,23 @@
 import Buttons from '@/components/buttons';
 import { MediaUploader } from '@/components/mediauploader';
 import TextField from '@/components/textField';
-import { transformationTypes } from '@/constants'
+import { transformationTypes } from '@/constants/index'
 // import React, { useState } from 'react'
 
 const TransformationType = ({ params }: { params: { type: string } }) => {
 
-    const transformation = transformationTypes[params.type]
+    // const transformation = transformationTypes[]
     // const [image , setImage] = useState({})
 
-    if (!transformation) {
-        return <div>Transformation type not found</div>;
-    }
+    // if (!transformation) {
+    //     return <div>Transformation type not found</div>;
+    // }
 
     return (
         <>
             <div className="w-full flex flex-col flex-wrap items-center p-5">
-                <div className='text-2xl'>{transformation.title}</div>
-                <div>{transformation.subTitle}</div>
+                {/* <div className='text-2xl'>{transformation.title}</div> */}
+                {/* <div>{transformation.subTitle}</div> */}
 
 
                 <div>
