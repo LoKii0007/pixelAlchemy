@@ -24,7 +24,7 @@ const Sidebar = () => {
                             const isActive = link.route == pathname
 
                             return (
-                                <div className={` rounded-full flex items-center py-4 px-4 ${isActive ? "bg-emerald-400" : ""}`}>
+                                <div key={index} className={` rounded-full flex items-center py-4 px-4 ${isActive ? "bg-emerald-400" : ""}`}>
                                     <img src={link.icon} alt="image" width={24} height={24} />
                                     <Link className='' key={index} href={link.route} >{link.label}</Link>
                                 </div>
@@ -39,7 +39,7 @@ const Sidebar = () => {
                         const isActive = link.route == pathname
 
                         return (
-                            <div className={` rounded-full p-4 ${isActive ? "bg-emerald-400" : ""}`}>
+                            <div key={index} className={` rounded-full p-4 ${isActive ? "bg-emerald-400" : ""}`}>
                                 <Link className='' key={index} href={link.route} >{link.label}</Link>
                             </div>
                         )
