@@ -1,28 +1,102 @@
-"use server"
+"use server";
 
+import { revalidatePath } from "next/cache";
+import User from "../database/model_schema/user.model";
 import { connectToDatabase } from "../database/mongoose";
-import axios from "axios"
+import axios from "axios";
 
-const url = "http://localhost:3000/api/"
+const url = "http://localhost:3000/api/";
 
-export async function UserCredits(userId:string, creditFee : number){
-    try {
-        await connectToDatabase()
-        console.log("connected")
-    } catch (error) {
-        console.log("something went wrong : ", error)
-    }
+export async function createUser(user: CreateUserParams) {
+  try {
+    await connectToDatabase();
+    const newUser = await User.create(user);
+    return JSON.parse(JSON.stringify({ newUser }));
+  } catch (error) {
+    console.log("error calling creatuser action : ", error);
+  }
 }
 
-export async function Signup(email : string , password : string){
-    try {
-        let a = await connectToDatabase()
-        console.log("connected to database")
+export async function getUserById(userId: string) {
+  try {
+    await connectToDatabase();
 
-        const res = await axios.post( `${url}signup`, {email : email , password : password})
-        console.log(res.data)
+    const user = await User.findOne({ clerkId: userId });
 
-    } catch (error) {
-        console.log("error fetching api/signup")
+    if (!user) throw new Error("User not found");
+
+    return JSON.parse(JSON.stringify(user));
+  } catch (error) {
+    console.log("error calling getuserbyid action : ", error);
+  }
+}
+
+export async function updateUser(clerkId: string, user: UpdateUserParams) {
+  try {
+    await connectToDatabase();
+
+    const updatedUser = await User.findOneAndUpdate({ clerkId }, user, {
+      new: true,
+    });
+
+    if (!updatedUser) throw new Error("User update failed");
+
+    return JSON.parse(JSON.stringify(updatedUser));
+  } catch (error) {
+    console.log("error calling uodateuser action : ", error);
+  }
+}
+
+export async function deleteUser(clerkId: string) {
+  try {
+    await connectToDatabase();
+
+    // Find user to delete
+    const userToDelete = await User.findOne({ clerkId });
+
+    if (!userToDelete) {
+      throw new Error("User not found");
     }
+
+    // Delete user
+    const deletedUser = await User.findByIdAndDelete(userToDelete._id);
+    revalidatePath("/");
+
+    return deletedUser ? JSON.parse(JSON.stringify(deletedUser)) : null;
+  } catch (error) {
+    console.log("error calling deleteuser action : ", error);
+  }
+}
+
+export async function updateCredits(userId: string, creditFee: number) {
+  try {
+    await connectToDatabase();
+
+    const updatedUserCredits = await User.findOneAndUpdate(
+      { _id: userId },
+      { $inc: { creditBalance: creditFee } },
+      { new: true }
+    );
+
+    if (!updatedUserCredits) throw new Error("User credits update failed");
+
+    return JSON.parse(JSON.stringify(updatedUserCredits));
+  } catch (error) {
+    console.log("error calling updatecredits action : ", error);
+  }
+}
+
+export async function Signup(email: string, password: string) {
+  try {
+    let a = await connectToDatabase();
+    console.log("connected to database");
+
+    const res = await axios.post(`${url}signup`, {
+      email: email,
+      password: password,
+    });
+    console.log(res.data);
+  } catch (error) {
+    console.log("error fetching api/signup");
+  }
 }

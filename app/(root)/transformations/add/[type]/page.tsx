@@ -2,12 +2,12 @@ import Buttons from '@/components/buttons';
 import { MediaUploader } from '@/components/mediauploader';
 import TextField from '@/components/textField';
 import { transformationTypes } from '@/constants'
-import React, { useState } from 'react'
+// import React, { useState } from 'react'
 
 const TransformationType = ({ params }: { params: { type: string } }) => {
 
     const transformation = transformationTypes[params.type]
-    const [image , setImage] = useState({})
+    // const [image , setImage] = useState({})
 
     if (!transformation) {
         return <div>Transformation type not found</div>;

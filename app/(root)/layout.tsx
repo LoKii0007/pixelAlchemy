@@ -1,4 +1,4 @@
-import Sidebar from "@/components/sidebar-sign";
+import Sidebar from "@/components/sidebar";
 import type { Metadata } from "next";
 import { Toaster } from "react-hot-toast";
 
@@ -15,7 +15,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="flex">
+        {/* sidebar  */}
         <Sidebar/>
+
+        {/* mobile nav */}
+        
+
         {children}
         <Toaster/>
       </body>

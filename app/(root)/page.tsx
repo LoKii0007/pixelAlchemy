@@ -1,8 +1,12 @@
+import { UserButton } from '@clerk/nextjs'
 import React from 'react'
 
 const Page = () => {
   return (
-    <div></div>
+    <div className='text-center'>
+    <h2>home</h2>
+    <UserButton afterSignOutUrl='/'/>
+    </div>
   )
 }
 
